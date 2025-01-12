@@ -2,6 +2,7 @@ import json
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai.chat_models import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from graph.state import AgentState, show_agent_reasoning
 from pydantic import BaseModel, Field
@@ -78,9 +79,14 @@ def portfolio_management_agent(state: AgentState):
         }
     )
     # Create the LLM
-    llm = ChatOpenAI(model="gpt-4").with_structured_output(
+    # llm = ChatOpenAI(model="gpt-4").with_structured_output(
+    #     PortfolioManagerOutput,
+    #     method="function_calling",
+    # )
+
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp").with_structured_output(
         PortfolioManagerOutput,
-        method="function_calling",
+        # method="function_calling",
     )
 
     try:
